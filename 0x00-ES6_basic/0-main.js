@@ -1,3 +1,3 @@
-import getBudgetForCurrentYear from './8-getBudgetCurrentYear.js';
+import appendToEachArrayValue from './10-loops.js';
 
-console.log(getBudgetForCurrentYear(2100, 5200, 1090));
+console.log(appendToEachArrayValue(['appended', 'fixed', 'displayed'], 'correctly-'));
