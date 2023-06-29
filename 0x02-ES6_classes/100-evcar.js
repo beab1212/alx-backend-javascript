@@ -1,12 +1,13 @@
-/* eslint-disable */
 import Car from './10-car';
 
-export default class EVCar extends Car {
+export default class EVcar extends Car {
   constructor(brand, motor, color, range) {
     super(brand, motor, color);
     this._range = range;
   }
 
   cloneCar() {
-    return new Car();
+    const CloneCarObj = super.constructor || super[Symbol.species];
+    return new CloneCarObj();
   }
+}
