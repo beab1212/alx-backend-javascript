@@ -1,10 +1,10 @@
-const fs = require("fs");
+const fs = require('fs');
 
 function countStudents(path) {
   return new Promise((resolve, reject) => {
-    fs.readFile(`./${path}`, "utf8", (err, data) => {
+    fs.readFile(`./${path}`, 'utf8', (err, data) => {
       if (err) {
-        reject(Error("Cannot load the database"));
+        reject(Error('Cannot load the database'));
       } else {
         const content = data.split("\n");
         const columnName = content[0].split(",");
