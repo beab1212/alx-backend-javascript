@@ -6,14 +6,14 @@ function countStudents(path) {
       if (err) {
         reject(Error('Cannot load the database'));
       } else {
-        const content = data.split("\n");
-        const columnName = content[0].split(",");
+        const content = data.split('\n');
+        const columnName = content[0].split(',');
         const records = {};
         const fields = [];
         let length = 0;
         content.map((rawRow, index) => {
-          if (index !== 0 && index !== content.length - 1 && rawRow !== "") {
-            const row = rawRow.split(",");
+          if (index !== 0 && index !== content.length - 1 && rawRow !== '') {
+            const row = rawRow.split(',');
             const newRow = {};
             length += 1;
             columnName.map((column, index) => {
