@@ -1,76 +1,70 @@
 const http = require('http');
-const fs = require('fs');
+const fs  = require('fs');
 
-function countStudents(path) {
+const hostname = '127.0.0.1';
+const port = 1245;
+
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
   return new Promise((resolve, reject) => {
-    const returnedData = {
-      numberOfStudent: '',
-      studentInField: [],
-    };
-    fs.readFile(`./${path}`, 'utf8', (err, data) => {
+    fs.readFile(fileName, (err, data) => {
       if (err) {
-        reject(Error('Cannot load the database'));
+        reject(err);
       } else {
-        const content = data.split('\n');
-        const columnName = content[0].split(',');
-        const records = {};
-        const fields = [];
-        let length = 0;
-        content.map((rawRow, index) => {
-          if (index !== 0 && index !== content.length - 1 && rawRow !== '') {
-            const row = rawRow.split(',');
-            const newRow = {};
+        let output = '';
+        const lines = data.toString().split('\n');
+        for (let i = 0; i < lines.length; i += 1) {
+          if (lines[i]) {
             length += 1;
-            columnName.map((column, index) => {
-              newRow[column] = row[index];
-              return null;
-            });
-            if (!fields.includes(newRow.field)) {
-              fields.push(newRow.field);
-            }
-            if (newRow.field in records) {
-              records[newRow.field].push(newRow);
+            const field = lines[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+              students[field[3]].push(field[0]);
             } else {
-              records[newRow.field] = [newRow];
+              students[field[3]] = [field[0]];
+            }
+            if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+              fields[field[3]] += 1;
+            } else {
+              fields[field[3]] = 1;
             }
           }
-          return null;
-        });
-        returnedData.numberOfStudent = `Number of students: ${length}`;
-        fields.map((field) => {
-          const studentsName = [];
-          records[field].map((student) => {
-            studentsName.push(student.firstname);
-            return null;
-          });
-          returnedData.studentInField.push(`Number of students in ${field}: ${records[field].length}. List: ${studentsName.join(', ')}`);
-          return null;
-        });
-        resolve(returnedData);
+        }
+        const l = length - 1;
+        output += `Number of students: ${l}\n`;
+        for (const [key, value] of Object.entries(fields)) {
+          if (key !== 'field') {
+            output += `Number of students in ${key}: ${value}. `;
+            output += `List: ${students[key].join(', ')}\n`;
+          }
+        }
+        resolve(output);
       }
-      return null;
     });
   });
 }
 
-module.exports = countStudents;
-
-const app = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  if (req.url === '/') {
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    countStudents(process.argv[2].toString()).then((data) => {
-      res.write('This is the list of our students\n');
-      res.write(`${data.numberOfStudent}\n`);
-      res.end(data.studentInField.join('\n'));
+const app = http.createServer((request, response) => {
+  response.statusCode = 200;
+  response.setHeader('Content-Type', 'text/plain');
+  if (request.url === '/') {
+    response.write('Hello Holberton School!');
+    response.end();
+  }
+  if (request.url === '/students') {
+    response.write('This is the list of our students\n');
+    countStudents(process.argv[2].toString()).then((output) => {
+      const outString = output.slice(0, -1);
+      response.end(outString);
     }).catch(() => {
-      res.statusCode = 404;
-      res.end('Cannot load the database');
+      response.statusCode = 404;
+      response.end('Cannot load the database');
     });
   }
 });
-app.listen(1245);
+
+app.listen(port, hostname, () => {
+});
 
 module.exports = app;
