@@ -35,7 +35,7 @@ function countStudents(path) {
         studentsName.push(student.firstname);
         return null;
       });
-      console.log(`Number of students in ${field} ${records[field].length} List: ${studentsName.join(', ')}\n`);
+      console.log(`Number of students in ${field} ${records[field].length}. List: ${studentsName.join(', ')}\n`);
       return null;
     });
   } catch (e) {
