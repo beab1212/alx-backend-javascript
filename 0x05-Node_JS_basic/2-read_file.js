@@ -40,7 +40,7 @@ function countStudents(path) {
         studentsName.push(student.firstname);
         return null;
       });
-      process.stdout.write(`Number of students in ${field} ${records[field].length} : ${studentsName.join(', ')}\n`);
+      process.stdout.write(`Number of students in ${field} ${records[field].length} List: ${studentsName.join(', ')}\n`);
       return null;
     });
   } catch (e) {
