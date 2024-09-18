@@ -28,14 +28,14 @@ function countStudents(path) {
       }
       return null;
     });
-    console.log(`Number of students: ${length}\n`);
+    console.log(`Number of students: ${length}`);
     fields.map((field) => {
       const studentsName = [];
       records[field].map((student) => {
         studentsName.push(student.firstname);
         return null;
       });
-      console.log(`Number of students in ${field} ${records[field].length}. List: ${studentsName.join(', ')}\n`);
+      console.log(`Number of students in ${field}: ${records[field].length}. List: ${studentsName.join(', ')}`);
       return null;
     });
   } catch (e) {
