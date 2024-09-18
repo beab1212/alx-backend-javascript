@@ -38,15 +38,12 @@ function countStudents(path) {
             studentsName.push(student.firstname);
             return null;
           });
-          console.log(
-            `Number of students in ${field}: ${
-              records[field].length
-            }. List: ${studentsName.join(", ")}`
-          );
+          console.log(`Number of students in ${field}: ${records[field].length}. List: ${studentsName.join(', ')}`);
           return null;
         });
         resolve(data);
       }
+      return null;
     });
   });
 }
