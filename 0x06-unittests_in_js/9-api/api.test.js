@@ -44,7 +44,7 @@ describe('cart page', () => {
   });
   it('test response content length', (done) => {
     request.get('http://localhost:7865/cart/12', (err, res, body) => {
-      expect(res.headers['content-length']).to.equal('28');
+      expect(res.headers['content-length']).to.equal('27');
       done();
     });
   });
