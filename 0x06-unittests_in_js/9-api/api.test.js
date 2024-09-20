@@ -38,7 +38,7 @@ describe('cart page', () => {
   });
   it('test response content with number id', (done) => {
     request.get('http://localhost:7865/cart/12', (err, res, body) => {
-      expect(body).to.equal('Payment methods for cart :12');
+      expect(body).to.equal('Payment methods for cart 12');
       done();
     });
   });
